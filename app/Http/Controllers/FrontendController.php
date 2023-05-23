@@ -27,7 +27,22 @@ class FrontendController extends Controller
         $top_orders = OrderProduct::groupBy('product_id')
             ->selectRaw('product_id, sum(quantity) as sum')
             ->havingRaw('sum >= 1')
-            ->orderBy('sum')
+            ->orderBy('sum', 'DESC')
+            ->get();
+
+
+
+        $top_ratings = OrderProduct::groupBy('product_id')
+            ->selectRaw('product_id, sum(star) as sum')
+            ->havingRaw('sum >= 1')
+            ->orderBy('sum', 'DESC')
+            ->get();
+
+
+        $top_discounts = Product::groupBy('id')
+            ->selectRaw('id, sum(discount) as sum')
+            ->havingRaw('sum >= 5')
+            ->orderBy('sum', 'DESC')
             ->get();
 
 
@@ -37,6 +52,8 @@ class FrontendController extends Controller
             'products'              => $products,
             'top_orders'            => $top_orders,
             'new_items'             => $new_items,
+            'top_ratings'           => $top_ratings,
+            'top_discounts'         => $top_discounts,
         ]);
     }
 

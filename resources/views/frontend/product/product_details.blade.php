@@ -46,10 +46,20 @@
                             @endif
                         </div>
 
-                        <div class="details-rating"><i class="active icofont-star"></i><i class="active icofont-star"></i><i
-                                class="active icofont-star"></i><i class="active icofont-star"></i><i
-                                class="icofont-star"></i><a href="#">(3
-                                reviews)</a>
+                        <div class="details-rating">
+                            @if ($total_reviews != 0)
+                                @php
+                                    $star = round($ratings / $total_reviews);
+                                @endphp
+
+                                @for ($i = 0; $i < $star; $i++)
+                                    <i class="icofont-star">
+                                @endfor
+                            @endif
+
+
+                            <a href="#">({{ $total_reviews }}
+                                review)</a>
 
 
                         </div>
@@ -219,9 +229,13 @@
                     <div class="col-lg-12">
                         <div class="product-details-frame">
                             <ul class="review-list">
+
+
                                 @foreach ($reviews as $review)
                                     <li class="review-item">
                                         <div class="review-media">
+
+
 
                                             @if ($review->rel_to_customer->photo == '')
                                                 <img width="64"

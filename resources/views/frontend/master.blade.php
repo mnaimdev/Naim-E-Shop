@@ -56,9 +56,13 @@
                 <div class="col-md-7 col-lg-4">
 
                     @auth('customerlogin')
-                        <a class="badge badge-success">{{ Auth::guard('customerlogin')->user()->name }}</a>
-                        <a href="{{ route('customer.profile') }}" class="text-white">Profile</a>
-                        <a href="{{ route('customer.logout') }}" class="text-white">Logout</a>
+                        <span
+                            style="background-color: black; border-radius: 10px; padding: 5px; color: white; ">{{ Auth::guard('customerlogin')->user()->name }}
+                            <sup>*</sup></span>
+                        <a href="{{ route('customer.profile') }}" class="text-white"
+                            style="font-size: 14px; margin-left: 10px;">Profile</a>
+                        <a href="{{ route('customer.logout') }}" class="text-white"
+                            style="font-size: 14px; margin-left: 10px;">Logout</a>
                     @else
                         <ul class="header-top-list">
                             <li><a href="">Contact Us</a></li>
