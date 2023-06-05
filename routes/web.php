@@ -37,10 +37,15 @@ use Illuminate\Support\Facades\Route;
 
 // ---------------------------- Frontend --------------------------------------- //
 
-Route::get('/', [FrontendController::class, 'index'])->name('index');
-Route::get('/product/details/{slug}', [FrontendController::class, 'product_details'])->name('product.details');
-Route::post('/getSize', [FrontendController::class, 'getSize']);
+// Route::get('/', [FrontendController::class, 'index'])->name('index');
+// Route::get('/product/details/{slug}', [FrontendController::class, 'product_details'])->name('product.details');
+// Route::post('/getSize', [FrontendController::class, 'getSize']);
 
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/',  'index')->name('index');
+    Route::get('/product/details/{slug}', 'product_details')->name('product.details');
+    Route::post('/getSize', 'getSize');
+});
 
 
 // Customer Login/Register
