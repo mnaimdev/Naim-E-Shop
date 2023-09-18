@@ -132,33 +132,48 @@
 
                             </div>
 
+                            {{-- stock check --}}
                             @if (session('stock'))
                                 <strong class="text-danger">
                                     {{ session('stock') }}
                                 </strong>
                             @endif
 
-                            @auth('customerlogin')
-                                <div class="details-add-group">
-                                    <button type="submit" name="btn" value="1"
-                                        style="background-color: green; width: 100%; padding: 5px; border-radius: 5px; margin: 5px 0; color: white;"
-                                        title="Add to Cart"> <i class="fas fa-shopping-basket"></i><span>add
-                                            to cart</span>
-                                    </button>
-                                </div>
 
-                                <div class="details-add-group">
-                                    <button type="submit" name="btn" value="2"
-                                        style="background-color: black; width: 100%; padding: 5px; border-radius: 5px; margin: 5px 0; color: white;"
-                                        title="Add to Cart"> <i class="icofont-heart"></i><span>add
-                                            to wishlist</span>
-                                    </button>
-                                </div>
+                            {{-- customer login check --}}
+                            @auth('customerlogin')
+                                {{-- check preorder --}}
+
+
+                                @php
+                                    $preorder = App\Models\Product::where('id', $products->id)->first()->preorder;
+                                @endphp
+
+                                @if ($preorder == 1)
+                                    <a class="btn btn-dark form-control">preorder</a>
+                                @else
+                                    <div class="details-add-group">
+                                        <button type="submit" name="btn" value="1"
+                                            style="background-color: green; width: 100%; padding: 5px; border-radius: 5px; margin: 5px 0; color: white;"
+                                            title="Add to Cart"> <i class="fas fa-shopping-basket"></i><span>add
+                                                to cart</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="details-add-group">
+                                        <button type="submit" name="btn" value="2"
+                                            style="background-color: black; width: 100%; padding: 5px; border-radius: 5px; margin: 5px 0; color: white;"
+                                            title="Add to Cart"> <i class="icofont-heart"></i><span>add
+                                                to wishlist</span>
+                                        </button>
+                                    </div>
+                                @endif
                             @else
                                 <div class="alert alert-danger">
                                     <h4>Please Login first, <a href="{{ route('customer.login') }}">Login</a></h4>
                                 </div>
                             @endauth
+
 
 
                         </form>
@@ -168,6 +183,7 @@
             </div>
         </div>
     </section>
+
 
 
     <section class="inner-section">

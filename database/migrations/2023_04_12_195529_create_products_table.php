@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('short_desp')->nullable();
             $table->string('slug');
             $table->string('preview')->nullable();
+            $table->boolean('preorder')->default(0);
             $table->timestamps();
         });
     }

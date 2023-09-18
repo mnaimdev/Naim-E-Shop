@@ -189,4 +189,13 @@ class ProductController extends Controller
         Inventory::find($inventory_id)->delete();
         return back();
     }
+
+    function preorder(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+        $product->preorder = $request->preorder;
+        $product->save();
+
+        return response()->json(['success' => 'succesfully updated preorder field']);
+    }
 }

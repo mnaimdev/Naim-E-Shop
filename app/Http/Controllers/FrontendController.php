@@ -46,6 +46,8 @@ class FrontendController extends Controller
             ->get();
 
 
+        $pre_orders = Product::where('preorder', 1)->get();
+
 
         return view('frontend.index', [
             'categories'            => $categories,
@@ -54,6 +56,7 @@ class FrontendController extends Controller
             'new_items'             => $new_items,
             'top_ratings'           => $top_ratings,
             'top_discounts'         => $top_discounts,
+            'pre_orders'            => $pre_orders,
         ]);
     }
 

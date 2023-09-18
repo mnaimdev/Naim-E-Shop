@@ -199,6 +199,8 @@ Route::get('/product/list', [ProductController::class, 'product_list'])->name('p
 Route::post('/getSubcategory', [ProductController::class, 'getSubcategory']);
 Route::get('/product/delete/{product_id}', [ProductController::class, 'product_delete'])->name('product.delete');
 
+Route::get('/preorder', [ProductController::class, 'preorder']);
+
 
 // Product Inventory
 Route::get('/product/inventory/{product_id}', [ProductController::class, 'product_inventory'])->name('product.inventory');

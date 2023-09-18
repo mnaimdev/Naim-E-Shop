@@ -16,6 +16,7 @@
                             <th>Discount</th>
                             <th>Category</th>
                             <th>Brand</th>
+                            <th>Preorder</th>
                             <th>Action</th>
                         </tr>
                         @foreach ($products as $sl => $product)
@@ -27,11 +28,18 @@
                                 <td>{{ $product->rel_to_category->category_name }}</td>
                                 <td>{{ $product->rel_to_brand->brand_name }}</td>
                                 <td>
+                                    <input data-id="{{ $product->id }}" class="toggle-class" type="checkbox"
+                                        data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active"
+                                        data-off="InActive" {{ $product->preorder ? 'checked' : '' }}>
+                                </td>
+                                <td>
                                     <div class="d-flex ">
                                         <a href="{{ route('product.inventory', $product->id) }}"
                                             class="btn btn-primary mx-3">Inventory</a>
                                         <a href="{{ route('product.delete', $product->id) }}"
                                             class="btn btn-danger">Delete</a>
+
+
                                     </div>
                                 </td>
                             </tr>
@@ -64,4 +72,29 @@
             })
         </script>
     @endif
+
+
+    <script>
+        $(function() {
+            $('.toggle-class').change(function() {
+                var preorder = $(this).prop('checked') == true ? 1 : 0;
+                var product_id = $(this).data('id');
+
+
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/preorder',
+                    data: {
+                        'preorder': preorder,
+                        'product_id': product_id
+                    },
+                    success: function(data) {
+                        console.log(data)
+                    }
+                });
+            })
+        })
+    </script>
 @endsection

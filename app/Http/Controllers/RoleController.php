@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -26,11 +27,21 @@ class RoleController extends Controller
             'role' => 'required',
         ]);
 
-        $role = Role::create([
+
+
+        // insert data role table
+        $role = Role::insertGetId([
             'name' => $request->role
         ]);
 
-        $role->givePermissionTo($request->permission);
+        // $role->givePermissionTo($request->permission);
+
+        foreach ($request->permission as $permission) {
+            DB::table('role_has_permissions')->insert([
+                'role_id'       => $role,
+                'permission_id' => $permission,
+            ]);
+        }
 
         return back();
     }
@@ -41,15 +52,7 @@ class RoleController extends Controller
         return back()->with('remove_role', 'Role has been removed!');
     }
 
-    function role_assign()
-    {
-        $users = User::all();
-        $roles = Role::all();
-        return view('backend.role.assign_role', [
-            'users' => $users,
-            'roles' => $roles,
-        ]);
-    }
+
 
     function edit_role($role_id)
     {
@@ -73,9 +76,23 @@ class RoleController extends Controller
 
 
     // Assign Role
+
+
+    function role_assign()
+    {
+        $users = User::all();
+        $roles = Role::all();
+        return view('backend.role.assign_role', [
+            'users' => $users,
+            'roles' => $roles,
+        ]);
+    }
+
+
     function assign_user_role(Request $request)
     {
         $user = User::find($request->user_id);
+
         $user->assignRole($request->role_id);
 
         return back()->with('assign', 'User role assigned :)');

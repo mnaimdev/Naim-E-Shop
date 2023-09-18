@@ -233,6 +233,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="nav nav-tabs">
@@ -242,6 +244,8 @@
                                     class="icofont-star"></i><span>top rating</span></a></li>
                         <li><a href="#top-disc" class="tab-link" data-bs-toggle="tab"><i
                                     class="icofont-sale-discount"></i><span>top discount</span></a></li>
+                        <li><a href="#pre-order" class="tab-link" data-bs-toggle="tab"><i
+                                    class="icofont-sale-discount"></i><span>PreOrder</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -364,7 +368,7 @@
                     @foreach ($top_discounts as $discount)
                         @php
                             $product = App\Models\Product::find($discount->id);
-
+                            
                         @endphp
 
                         <li>
@@ -414,6 +418,61 @@
 
                 </div>
             </div>
+
+            {{-- preorder --}}
+            <div class="tab-pane fade" id="pre-order">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+                    @foreach ($pre_orders as $product)
+                        <li>
+                            <div class="product-card">
+                                <div class="product-media">
+
+                                    <a class="product-image" href="{{ route('product.details', $product->slug) }}">
+                                        <img style="height: 200px"
+                                            src="{{ asset('/uploads/product/preview') }}/{{ $product->preview }}"
+                                            alt="product">
+                                    </a>
+                                </div>
+
+                                <div class="product-content">
+                                    <div class="product-rating">
+                                        <i class="active icofont-star"></i>
+                                        <i class="active icofont-star"></i>
+                                        <i class="active icofont-star"></i>
+                                        <i class="active icofont-star"></i>
+                                        <i class="icofont-star"></i>
+                                        <a href="{{ route('product.details', $product->slug) }}">(3)</a>
+                                    </div>
+
+                                    <h6 class="product-name">
+                                        <a
+                                            href="{{ route('product.details', $product->slug) }}">{{ $product->product_name }}</a>
+                                    </h6>
+
+                                    @if ($product->discount != null)
+                                        <h6 class="product-price"><del>
+                                                TK {{ $product->price }}</del><span> TK
+                                                {{ $product->after_discount }}</span>
+                                        </h6>
+                                    @else
+                                        <h6 class="product-price">
+                                            <span> TK {{ $product->after_discount }}</span>
+                                        </h6>
+                                    @endif
+
+                                    <a class="product-add" href="{{ route('product.details', $product->slug) }}"><i
+                                            class="fas fa-shopping-basket"></i><span>View</span></a>
+
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+
+                </div>
+            </div>
+
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-btn-25"><a href="shop-4column.html" class="btn btn-outline"><i
